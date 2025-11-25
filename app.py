@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
+import pytest
 
 DATA_PATH = 'data/sales.csv'
 
@@ -95,3 +96,37 @@ elif page == "Upload":
                 "CSV must contain columns: Date, Product, Quantity, Revenue."
             )
     st.write("You can upload a new sales data file to update the dashboard.")
+
+
+# Adding unit tests for data integrity and plot functionality
+
+def test_load_data():
+    df = load_data()
+    assert isinstance(df, pd.DataFrame), "Data should be loaded as a DataFrame"
+    assert set(['Date', 'Product', 'Quantity', 'Revenue']).issubset(
+        df.columns
+    ), "DataFrame should have required columns"
+
+def test_save_data():
+    test_df = pd.DataFrame({
+        'Date': ['2025-11-01'],
+        'Product': ['Widget'],
+        'Quantity': [10],
+        'Revenue': [200]
+    })
+    save_data(test_df)
+    df = load_data()
+    assert not df.empty, "Data should be saved and loaded correctly"
+    assert 'Widget' in df['Product'].values, (
+        "Saved data should contain the test product"
+    )
+
+
+# Ensure proper spacing before test_dashboard_plots
+def test_dashboard_plots():
+    df = load_data()
+    if not df.empty:
+        assert 'State' in df.columns, "State column should exist in the data"
+        assert 'Country' in df.columns, (
+            "Country column should exist in the data"
+        )
