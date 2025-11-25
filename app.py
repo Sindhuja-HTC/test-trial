@@ -53,30 +53,6 @@ if page == "Dashboard":
         ax3.set_title('Sales Trend Over Time')
         st.pyplot(fig3)
 
-        # Adding state and country columns to the data
-        if 'State' not in data.columns:
-            data['State'] = ''  # Placeholder for State
-        if 'Country' not in data.columns:
-            data['Country'] = ''  # Placeholder for Country
-
-        # New plot: Revenue by State
-        if 'State' in data.columns and not data['State'].isnull().all():
-            fig4, ax4 = plt.subplots()
-            revenue_by_state = data.groupby('State')['Revenue'].sum()
-            revenue_by_state.plot(kind='bar', color='green', ax=ax4)
-            ax4.set_ylabel('Revenue')
-            ax4.set_title('Revenue by State')
-            st.pyplot(fig4)
-
-        # New plot: Revenue by Country
-        if 'Country' in data.columns and not data['Country'].isnull().all():
-            fig5, ax5 = plt.subplots()
-            revenue_by_country = data.groupby('Country')['Revenue'].sum()
-            revenue_by_country.plot(kind='bar', color='purple', ax=ax5)
-            ax5.set_ylabel('Revenue')
-            ax5.set_title('Revenue by Country')
-            st.pyplot(fig5)
-
 elif page == "Upload":
     st.title("⬆️ Upload Sales Data")
     uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
