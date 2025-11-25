@@ -37,6 +37,13 @@ if page == "Dashboard":
         ax.set_title('Revenue by Product')
         st.pyplot(fig)
 
+        # New plot: quantity sold by product
+        fig2, ax2 = plt.subplots()
+        data.groupby('Product')['Quantity'].sum().plot(kind='bar', color='orange', ax=ax2)
+        ax2.set_ylabel('Quantity Sold')
+        ax2.set_title('Total Quantity Sold by Product')
+        st.pyplot(fig2)
+
 elif page == "Upload":
     st.title("⬆️ Upload Sales Data")
     uploaded_file = st.file_uploader("Choose a CSV file", type=["csv"])
